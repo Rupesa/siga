@@ -4,7 +4,7 @@
 // can change multiple times with different sets of variables, inputs, data.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
 
 import 'search_page.dart';
 import 'home_page.dart';
@@ -72,6 +72,7 @@ class _RootAppState extends State<RootApp> {
   PreferredSizeWidget? getAppBar() {
     if (pageIndex == 0) {
       return AppBar(
+        toolbarHeight: 60,
         backgroundColor: white,
         title: Row(
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+// import 'package:flutter_svg/svg.dart';
+import 'package:siga/widgets/home_card.dart';
 // import 'package:instagram_clone/constant/post_json.dart';
 // import 'package:instagram_clone/constant/story_json.dart';
 // import 'package:instagram_clone/theme/colors.dart';
@@ -11,6 +12,7 @@ import '../widgets/post_item.dart';
 import '../widgets/story_item.dart';
 import '../constant/post_json.dart';
 import '../constant/story_json.dart';
+import '../constant/home_card_json.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -27,70 +29,73 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: <Widget>[
-                Padding(
-                  padding:
-                      const EdgeInsets.only(right: 20, left: 15, bottom: 10),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        width: 65,
-                        height: 65,
-                        child: Stack(
-                          children: <Widget>[
-                            Container(
-                              width: 65,
-                              height: 65,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: NetworkImage(profile),
-                                      fit: BoxFit.cover)),
-                            ),
-                            Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  width: 19,
-                                  height: 19,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle, color: black),
-                                  child: Icon(
-                                    Icons.add_circle,
-                                    color: buttonFollowColor,
-                                    size: 19,
-                                  ),
-                                ))
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      SizedBox(
-                        width: 70,
-                        child: Text(
-                          name,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: black),
-                        ),
-                      )
-                    ],
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   child: Row(
+          //     children: <Widget>[
+          //       Padding(
+          //           padding: const EdgeInsets.only(
+          //               right: 20, left: 15, bottom: 0, top: 10),
+          //           child: Column(children: <Widget>[
+          //             Row(
+          //                 children: List.generate(stories.length, (index) {
+          //               return StoryItem(
+          //                 img: stories[index]['img'],
+          //                 name: stories[index]['name'],
+          //               );
+          //             }))
+          //           ]))
+          //     ],
+          //   ),
+          // ),
+          // Divider(
+          //   color: black.withOpacity(0.3),
+          // ),
+          Container(
+            height: 200.0,
+            color: Colors.white,
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 8.0,
+              ),
+              scrollDirection: Axis.horizontal,
+              itemCount: home_cards.length,
+              itemBuilder: (BuildContext context, int index) {
+                // final Home_card story = home_cards[index - 1];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: Home_card(
+                    profile_img: home_cards[index]['profile_img'],
+                    profile_name: home_cards[index]['profile_name'],
+                    event_img: home_cards[index]['event_img'],
+                    event_name: home_cards[index]['event_name'],
                   ),
-                ),
-                Row(
-                    children: List.generate(stories.length, (index) {
-                  return StoryItem(
-                    img: stories[index]['img'],
-                    name: stories[index]['name'],
-                  );
-                })),
-              ],
+                );
+              },
             ),
           ),
+          // SingleChildScrollView(
+          //   scrollDirection: Axis.horizontal,
+          //   child: Row(
+          //     children: <Widget>[
+          //       Padding(
+          //           padding: const EdgeInsets.only(
+          //               right: 20, left: 15, bottom: 0, top: 10),
+          //           child: Column(children: <Widget>[
+          //             Row(
+          //                 children: List.generate(home_cards.length, (index) {
+          //               return Home_card(
+          //                 profile_img: home_cards[index]['profile_img'],
+          //                 profile_name: home_cards[index]['profile_name'],
+          //                 event_img: home_cards[index]['event_img'],
+          //                 event_name: home_cards[index]['event_name'],
+          //               );
+          //             }))
+          //           ]))
+          //     ],
+          //   ),
+          // ),
           Divider(
             color: black.withOpacity(0.3),
           ),
