@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 
 import 'search_page.dart';
 import 'home_page.dart';
+import 'profile_page.dart';
 import '../theme/colors.dart';
 import 'home_page.dart';
 import 'search_page.dart';
@@ -48,13 +49,7 @@ class _RootAppState extends State<RootApp> {
               fontSize: 20, fontWeight: FontWeight.bold, color: black),
         ),
       ),
-      Center(
-        child: Text(
-          "Account Page",
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: black),
-        ),
-      ),
+      ProfilePage(),
       Center(
         child: Text(
           "Message Page",
@@ -121,7 +116,7 @@ class _RootAppState extends State<RootApp> {
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else {
-      return AppBar(
+      AppBar(
           backgroundColor: appBarColor,
           title: Text("Message",
               style: TextStyle(
