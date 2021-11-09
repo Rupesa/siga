@@ -3,6 +3,7 @@
    <application
         android:label="siga"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value = "AIzaSyCKffUTFXNQNQ22vI-ggF2EWnbFVXEf1_k"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

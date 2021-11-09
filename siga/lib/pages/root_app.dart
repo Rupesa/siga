@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'search_page.dart';
 import 'home_page.dart';
 import 'profile_page.dart';
+import 'map_page.dart';
 import '../theme/colors.dart';
 import 'home_page.dart';
 import 'search_page.dart';
@@ -42,13 +43,7 @@ class _RootAppState extends State<RootApp> {
               fontSize: 20, fontWeight: FontWeight.bold, color: black),
         ),
       ),
-      Center(
-        child: Text(
-          "Activity Page",
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: black),
-        ),
-      ),
+      MapPage(),
       ProfilePage(),
       Center(
         child: Text(
@@ -106,7 +101,7 @@ class _RootAppState extends State<RootApp> {
     } else if (pageIndex == 3) {
       return AppBar(
           backgroundColor: appBarColor,
-          title: Text("Activity",
+          title: Text("Events near you",
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else if (pageIndex == 4) {
