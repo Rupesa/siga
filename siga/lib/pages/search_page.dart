@@ -30,15 +30,34 @@ class _SearchPageState extends State<SearchPage> {
               Container(
                 width: size.width - 30,
                 height: 45,
+                // child: TextField(
+                //   decoration: InputDecoration(
+                //     hintText: "Search...",
+                //     hintStyle: TextStyle(color: Colors.grey.shade600),
+                //     prefixIcon: Icon(
+                //       Icons.search,
+                //       color: Colors.grey.shade600,
+                //       size: 20,
+                //     ),
+                //     filled: true,
+                //     fillColor: Colors.grey.shade100,
+                //     contentPadding: EdgeInsets.all(8),
+                //     enabledBorder: OutlineInputBorder(
+                //         borderRadius: BorderRadius.circular(20),
+                //         borderSide: BorderSide(color: Colors.grey.shade100)),
+                //   ),
+                // ),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: textFieldBackground),
+                    color: Colors.grey.shade200),
                 child: TextField(
                   decoration: InputDecoration(
+                      hintText: "Search...",
+                      hintStyle: TextStyle(color: Colors.grey.shade600),
                       border: InputBorder.none,
                       prefixIcon: Icon(
                         Icons.search,
-                        color: white.withOpacity(0.3),
+                        color: Colors.grey.shade600,
                       )),
                   style: TextStyle(color: white.withOpacity(0.3)),
                   cursorColor: white.withOpacity(0.3),

@@ -4,15 +4,17 @@
 // can change multiple times with different sets of variables, inputs, data.
 
 import 'package:flutter/material.dart';
+import 'package:siga/pages/map_page.dart';
 // import 'package:flutter_svg/svg.dart';
 
 import 'search_page.dart';
 import 'home_page.dart';
 import 'profile_page.dart';
-import 'map_page.dart';
 import '../theme/colors.dart';
 import 'home_page.dart';
 import 'search_page.dart';
+import 'messages_page.dart';
+import 'map_page.dart';
 
 class RootApp extends StatefulWidget {
   @override
@@ -45,13 +47,14 @@ class _RootAppState extends State<RootApp> {
       ),
       MapPage(),
       ProfilePage(),
-      Center(
-        child: Text(
-          "Message Page",
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: black),
-        ),
-      )
+      // Center(
+      //   child: Text(
+      //     "Message Page",
+      //     style: TextStyle(
+      //         fontSize: 20, fontWeight: FontWeight.bold, color: black),
+      //   ),
+      // )
+      MessagesPage()
     ];
     return IndexedStack(
       index: pageIndex,
@@ -62,7 +65,8 @@ class _RootAppState extends State<RootApp> {
   PreferredSizeWidget? getAppBar() {
     if (pageIndex == 0) {
       return AppBar(
-        toolbarHeight: 60,
+        toolbarHeight: 70,
+        elevation: 0,
         backgroundColor: white,
         title: Row(
           //mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -91,29 +95,43 @@ class _RootAppState extends State<RootApp> {
         ),
       );
     } else if (pageIndex == 1) {
-      return null;
+      return AppBar(
+          backgroundColor: appBarColor,
+          toolbarHeight: 70,
+          elevation: 0,
+          title: Text("Events",
+              style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else if (pageIndex == 2) {
       return AppBar(
           backgroundColor: appBarColor,
+          toolbarHeight: 70,
+          elevation: 0,
           title: Text("Camera",
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else if (pageIndex == 3) {
       return AppBar(
           backgroundColor: appBarColor,
+          toolbarHeight: 70,
+          elevation: 0,
           title: Text("Events near you",
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else if (pageIndex == 4) {
       return AppBar(
           backgroundColor: appBarColor,
+          toolbarHeight: 70,
+          elevation: 0,
           title: Text("Account",
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else {
-      AppBar(
+      return AppBar(
           backgroundColor: appBarColor,
-          title: Text("Message",
+          toolbarHeight: 70,
+          elevation: 0,
+          title: Text("Messages",
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     }
