@@ -9,7 +9,7 @@ import '../widgets/button_widget.dart';
 import '../widgets/numbers_widget.dart';
 import '../widgets/profile_widget.dart';
 import '../constant/messages_json.dart';
-import '../widgets/massages_list.dart';
+import '../widgets/messages_list.dart';
 
 class MessagesPage extends StatefulWidget {
   @override
