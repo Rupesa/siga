@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_svg/svg.dart';
 import 'package:siga/widgets/home_card.dart';
-// import 'package:instagram_clone/constant/post_json.dart';
-// import 'package:instagram_clone/constant/story_json.dart';
-// import 'package:instagram_clone/theme/colors.dart';
-// import 'package:instagram_clone/widgets/story_item.dart';
-// import 'package:line_icons/line_icons.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart'; // new
 import '../theme/colors.dart';
 import '../widgets/post_item.dart';
 import '../widgets/story_item.dart';
@@ -14,14 +9,65 @@ import '../constant/post_json.dart';
 import '../constant/story_json.dart';
 import '../constant/home_card_json.dart';
 
+CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  void initState() {
+    // print("Teste 1\n1\n1\n1\n1");
+    // Firebase.initializeApp().whenComplete(() {
+    //   print("completed");
+    //   setState(() {});
+    // });
+    super.initState();
+    getUsers();
+  }
+
+  Future<void> getUsers() async {
+    // print("Teste 2\n2\n2\n2\n2");
+    // Get docs from collection reference
+    QuerySnapshot querySnapshot = await usersRef.get();
+    // Get data from docs and convert map to List
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    print(allData.length);
+    print(allData);
+    querySnapshot.docs.forEach((DocumentSnapshot element) {
+      print(element.data());
+      print(element.id);
+      print(element.exists);
+    });
+  }
+
+  // for (int i = 0; i < querySnapshot.docs.length; i++) {
+  //   var a = querySnapshot.docs[i];
+  //   print(a);
+  // }
+  // }
+
+  // getUsers() async {
+  //   print("Teste 3\n3\n3\n3\n3");
+  //   var collection = FirebaseFirestore.instance.collection('users');
+  //   var docSnapshot = await collection.get();
+  //   if (docSnapshot.size > 0) {
+  //     Map<String, dynamic>? data = docSnapshot.data();
+  //     var value = data?['username']; // <-- The value you want to retrieve.
+  //     // Call setState if needed.
+  //   }
+
+  //   usersRef.get().then((QuerySnapshot querySnapshot) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       print(doc.data);
+  //     });
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // print("Teste 4\n4\n4\n4\n4");
     return getBody();
   }
 

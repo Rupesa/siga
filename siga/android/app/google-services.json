@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "910648143142",
+    "project_id": "siga-d539e",
+    "storage_bucket": "siga-d539e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910648143142:android:a9f7fc9b22b0101db125e7",
+        "android_client_info": {
+          "package_name": "com.example.siga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910648143142-rf63hrabvjvmj73sjkbh47jv0u0b19ho.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.siga",
+            "certificate_hash": "701b600cc109c95b1d28ca99e2e24a8122a79cff"
+          }
+        },
+        {
+          "client_id": "910648143142-atet19hkbmm0echskbjd6nfntfvn2ai9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmc1_mRBbIEhfhUALaztnQzZlPSiAPJYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910648143142-atet19hkbmm0echskbjd6nfntfvn2ai9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "910648143142-8v95vvkr577mv78rrvtgdoj8hulghvvq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.testing.siga"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
