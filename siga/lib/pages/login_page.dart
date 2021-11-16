@@ -8,7 +8,7 @@ import 'package:siga/theme/colors.dart';
 final GoogleSignIn googleSignIn = GoogleSignIn();
 
 class Login_Page extends StatefulWidget {
-  const Login_Page({Key? key}) : super(key: key);
+  //const Login_Page({Key? key}) : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();
@@ -18,7 +18,7 @@ class _HomeState extends State<Login_Page> {
   bool isAuth = false;
 
   @override
-  initState() {
+  void initState() {
     super.initState();
     googleSignIn.onCurrentUserChanged.listen((account) {
       if (account != null) {
@@ -66,7 +66,7 @@ class _HomeState extends State<Login_Page> {
     // return Text("Authenticated");
   }
 
-  Widget buildUnAuthScreen() {
+  Scaffold buildUnAuthScreen() {
     return Scaffold(
         body: Container(
       decoration: BoxDecoration(
@@ -94,8 +94,8 @@ class _HomeState extends State<Login_Page> {
             height: 70,
           ),
           GestureDetector(
-            onTap: login(),
-            // onTap: print("Pressed"),
+            //onTap: login(),
+            onTap: () => login(),
             child: Container(
                 width: 230,
                 height: 50,
