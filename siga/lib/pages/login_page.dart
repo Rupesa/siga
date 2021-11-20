@@ -1,11 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:siga/pages/root_app.dart';
 import 'package:siga/theme/colors.dart';
+import 'create_account_page.dart';
 
 final GoogleSignIn googleSignIn = GoogleSignIn();
+final CollectionReference usersRef =
+    FirebaseFirestore.instance.collection("users");
+final DateTime timestamp = DateTime.now();
 
 class Login_Page extends StatefulWidget {
   //const Login_Page({Key? key}) : super(key: key);
@@ -23,6 +28,7 @@ class _HomeState extends State<Login_Page> {
     googleSignIn.onCurrentUserChanged.listen((account) {
       if (account != null) {
         print("User signed in!: $account");
+        createUserInFirestore();
         setState(() {
           isAuth = true;
         });
@@ -34,6 +40,27 @@ class _HomeState extends State<Login_Page> {
     }, onError: (err) {
       print("Error signing in: $err");
     });
+  }
+
+  createUserInFirestore() async {
+    //check if user exists
+    final GoogleSignInAccount? user = googleSignIn.currentUser;
+    final DocumentSnapshot doc = await usersRef.doc(user!.id).get();
+
+    if (!doc.exists) {
+      final username = await Navigator.push(
+          context, MaterialPageRoute(builder: (context) => CreateAccount()));
+
+      usersRef.doc(user.id).set({
+        "id": user.id,
+        "username": username,
+        "photoUrl": user.photoUrl,
+        "email": user.id,
+        "displayName": user.displayName,
+        "bio": "",
+        "timestamp": timestamp,
+      });
+    }
   }
 
   login() {
@@ -48,8 +75,8 @@ class _HomeState extends State<Login_Page> {
 
   logout() {
     try {
-      //googleSignIn.signOut();
-      print("pressed");
+      googleSignIn.signOut();
+      //print("pressed");
     } on PlatformException catch (err) {
       // Handle err
     } catch (err) {
@@ -61,7 +88,7 @@ class _HomeState extends State<Login_Page> {
     return MaterialApp(home: RootApp());
     // return TextButton(
     //   child: Text("Logout"),
-    //   onPressed: logout(),
+    //   onPressed: () => logout(),
     // );
     // return Text("Authenticated");
   }
@@ -100,10 +127,11 @@ class _HomeState extends State<Login_Page> {
                 width: 230,
                 height: 50,
                 decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7.0),
                     image: DecorationImage(
-                  image: AssetImage("assets/images/google_logo.png"),
-                  fit: BoxFit.cover,
-                ))),
+                      image: AssetImage("assets/images/google_logo.png"),
+                      fit: BoxFit.cover,
+                    ))),
           ),
         ],
       ),
