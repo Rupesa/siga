@@ -10,6 +10,9 @@ import '../widgets/numbers_widget.dart';
 import '../widgets/profile_widget.dart';
 
 class ProfilePage extends StatefulWidget {
+  User currentUser;
+  ProfilePage(this.currentUser);
+
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -24,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         const SizedBox(height: 24),
         ProfileWidget(
-          imagePath: user.photoUrl,
+          imagePath: widget.currentUser.photoUrl,
           onClicked: () {
             print(context == null);
             Navigator.of(context).push(
@@ -33,13 +36,13 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
         const SizedBox(height: 24),
-        buildName(user),
+        buildName(widget.currentUser),
         // const SizedBox(height: 24),
         // Center(child: buildUpgradeButton()),
         const SizedBox(height: 24),
         NumbersWidget(),
         const SizedBox(height: 48),
-        buildAbout(user),
+        buildAbout(widget.currentUser),
       ],
     );
   }

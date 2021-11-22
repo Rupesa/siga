@@ -5,6 +5,7 @@
 
 //import 'package:firebase_auth/firebase_auth.dart';
 //import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -25,6 +26,12 @@ import 'map_page.dart';
 
 // FirebaseStorage storage = FirebaseStorage.instance;
 // Reference ref = storage.ref();
+firebase_storage.FirebaseStorage storage =
+    firebase_storage.FirebaseStorage.instance;
+firebase_storage.Reference ref =
+    firebase_storage.FirebaseStorage.instance.ref();
+CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
+CollectionReference postsRef = FirebaseFirestore.instance.collection("posts");
 
 class RootApp extends StatefulWidget {
   User? currentUser;
@@ -54,7 +61,7 @@ class _RootAppState extends State<RootApp> {
       SearchPage(),
       CameraPage(currentUser: currentUser),
       MapPage(),
-      ProfilePage(),
+      ProfilePage(currentUser!),
       // Center(
       //   child: Text(
       //     "Message Page",

@@ -27,10 +27,10 @@ class _HomeState extends State<Login_Page> {
   @override
   void initState() {
     super.initState();
-    googleSignIn.onCurrentUserChanged.listen((account) {
+    googleSignIn.onCurrentUserChanged.listen((account) async {
       if (account != null) {
         print("User signed in!: $account");
-        createUserInFirestore();
+        await createUserInFirestore();
         setState(() {
           isAuth = true;
         });
@@ -65,10 +65,15 @@ class _HomeState extends State<Login_Page> {
       doc = await usersRef.doc(user.id).get();
     }
     currentUser = User.fromDocument(doc);
+    print("Heyyy");
+    print("Heyy");
+    print("Hey");
+    print(currentUser);
   }
 
   login() {
     try {
+      googleSignIn.signOut();
       googleSignIn.signIn();
     } on PlatformException catch (err) {
       // Handle err
@@ -144,7 +149,7 @@ class _HomeState extends State<Login_Page> {
 
   @override
   Widget build(BuildContext context) {
-    //return isAuth ? buildAuthScreen() : buildUnAuthScreen();
-    return buildAuthScreen();
+    return isAuth ? buildAuthScreen() : buildUnAuthScreen();
+    //return buildAuthScreen();
   }
 }
