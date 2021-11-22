@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icons.dart';
@@ -5,25 +6,42 @@ import 'package:line_icons/line_icons.dart';
 import '../theme/colors.dart';
 
 class PostItem extends StatelessWidget {
+  final String postId;
   final String profileImg;
   final String name;
   final String postImg;
+  final String ownerId;
   final String caption;
-  final isLoved;
-  final String likedBy;
-  final String viewCount;
+  final bool isLoved;
+  final int likeNumber;
   final String dayAgo;
+
   const PostItem({
     Key? key,
+    required this.postId,
     required this.profileImg,
     required this.name,
     required this.postImg,
-    this.isLoved,
-    required this.likedBy,
-    required this.viewCount,
+    required this.ownerId,
+    required this.isLoved,
+    required this.likeNumber,
     required this.dayAgo,
     required this.caption,
   }) : super(key: key);
+
+  factory PostItem.fromDocument(DocumentSnapshot doc) {
+    return PostItem(
+      profileImg: doc["profileImg"],
+      name: doc["name"],
+      ownerId: doc["ownerId"],
+      postImg: doc["postImg"],
+      caption: doc["caption"],
+      isLoved: doc["isLoved"],
+      likeNumber: doc["likeNumber"],
+      dayAgo: doc["dayAgo"],
+      postId: doc["id"],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,22 +141,22 @@ class PostItem extends StatelessWidget {
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: RichText(
                 text: TextSpan(children: [
+              // TextSpan(
+              //     text: "Liked by ",
+              //     style: TextStyle(
+              //         fontSize: 15, fontWeight: FontWeight.w500, color: black)),
               TextSpan(
-                  text: "Liked by ",
-                  style: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w500, color: black)),
-              TextSpan(
-                  text: "$likedBy ",
-                  style: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w700, color: black)),
-              TextSpan(
-                  text: "and ",
-                  style: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w500, color: black)),
-              TextSpan(
-                  text: "Other",
+                  text: "$likeNumber",
                   style: TextStyle(
                       fontSize: 15, fontWeight: FontWeight.w700, color: black)),
+              TextSpan(
+                  text: " Likes",
+                  style: TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w500, color: black)),
+              // TextSpan(
+              //     text: "Other",
+              //     style: TextStyle(
+              //         fontSize: 15, fontWeight: FontWeight.w700, color: black)),
             ])),
           ),
           SizedBox(
@@ -164,19 +182,19 @@ class PostItem extends StatelessWidget {
           SizedBox(
             height: 12,
           ),
-          Padding(
-            padding: EdgeInsets.only(left: 15, right: 15),
-            child: Text(
-              "View $viewCount comments",
-              style: TextStyle(
-                  color: black.withOpacity(0.5),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
+          // Padding(
+          //   padding: EdgeInsets.only(left: 15, right: 15),
+          //   child: Text(
+          //     "View $viewCount comments",
+          //     style: TextStyle(
+          //         color: black.withOpacity(0.5),
+          //         fontSize: 15,
+          //         fontWeight: FontWeight.w500),
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 12,
+          // ),
           // Padding(
           //     padding: EdgeInsets.only(left: 15, right: 15),
           //     child: Row(

@@ -1,6 +1,7 @@
 // import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:siga/pages/root_app.dart';
 import 'package:siga/widgets/home_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart'; // new
@@ -23,11 +24,23 @@ class _HomePageState extends State<HomePage> {
 
   void initState() {
     super.initState();
+    // getProfilePosts();
     // createUser();
     // getUserByName("Fred");
     // getUsers();
     // getUserByID("U8Ttlz8Idf6uwR6Db43b");
   }
+
+  // getProfilePosts() async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   QuerySnapshot snapshot = await postsRef
+  //       .doc(widget.profileId)
+  //       .collection("userPosts")
+  //       .orderBy('timestamp', descending: true)
+  //       .get();
+  // }
 
   createUser() {
     usersRef
@@ -157,9 +170,12 @@ class _HomePageState extends State<HomePage> {
                 name: posts[index]['name'],
                 caption: posts[index]['caption'],
                 isLoved: posts[index]['isLoved'],
-                viewCount: posts[index]['commentCount'],
-                likedBy: posts[index]['likedBy'],
+                // viewCount: posts[index]['commentCount'],
+                // likedBy: posts[index]['likedBy'],
                 dayAgo: posts[index]['timeAgo'],
+                likeNumber: 0,
+                ownerId: '',
+                postId: '',
               );
             }),
           )

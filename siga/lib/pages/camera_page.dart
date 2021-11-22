@@ -131,6 +131,7 @@ class _CameraPageSate extends State<CameraPage> {
   }
 
   Future<String> uploadImage(imageFile) async {
+    String postId = Uuid().v4();
     firebase_storage.UploadTask uploadTask =
         ref.child("post_$postId.jpg").putFile(imageFile);
 
@@ -142,6 +143,7 @@ class _CameraPageSate extends State<CameraPage> {
 
   createPostInFirebase(
       {String? mediaUrl, String? location, String? description}) {
+    String postId = Uuid().v4();
     postsRef
         .doc(widget.currentUser!.id)
         .collection("userPosts")
@@ -159,20 +161,25 @@ class _CameraPageSate extends State<CameraPage> {
   }
 
   handleSubmit() async {
+    print("handleSubmit");
     setState(() {
+      print("setState");
       isUploading = true;
     });
     await compressImage();
+    print("hey1");
     String mediaUrl = await uploadImage(file1);
     createPostInFirebase(
       mediaUrl: mediaUrl,
       location: locationController.text,
       description: captionController.text,
     );
+    print("hey2");
     captionController.clear();
     locationController.clear();
 
     setState(() {
+      print("hey3");
       file1 = null;
       isUploading = false;
     });
@@ -181,6 +188,7 @@ class _CameraPageSate extends State<CameraPage> {
   compressImage() async {
     final tempDir = await getTemporaryDirectory();
     final path = tempDir.path;
+    String postId = Uuid().v4();
 
     Im.Image? imageFile = Im.decodeImage(file1!.readAsBytesSync());
 
@@ -202,7 +210,7 @@ class _CameraPageSate extends State<CameraPage> {
           ),
           actions: [
             TextButton(
-                onPressed: () => isUploading ? null : () => handleSubmit(),
+                onPressed: () => isUploading ? null : {handleSubmit()},
                 child: Text("Post",
                     style: TextStyle(
                         color: Colors.blueAccent,
@@ -236,9 +244,9 @@ class _CameraPageSate extends State<CameraPage> {
             ),
             ListTile(
               leading: CircleAvatar(
-                  //backgroundImage:
-                  //CachedNetworkImageProvider(widget.currentUser!.photoUrl),
-                  ),
+                backgroundImage:
+                    CachedNetworkImageProvider(widget.currentUser!.photoUrl),
+              ),
               title: Container(
                 width: 250.0,
                 child: TextField(
@@ -259,7 +267,7 @@ class _CameraPageSate extends State<CameraPage> {
               title: Container(
                 width: 250.0,
                 child: TextField(
-                  controller: captionController,
+                  controller: locationController,
                   decoration: InputDecoration(
                     hintText: "Where was this photo taken?",
                     border: InputBorder.none,
