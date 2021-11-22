@@ -10,6 +10,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:siga/model/user.dart';
 import 'package:siga/theme/colors.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:image/image.dart' as Im;
+import 'package:uuid/uuid.dart';
 
 import 'login_page.dart';
 
@@ -27,6 +31,8 @@ class CameraPage extends StatefulWidget {
 class _CameraPageSate extends State<CameraPage> {
   File? file1;
   final ImagePicker _picker = ImagePicker();
+  bool isUploading = false;
+  String postId = Uuid().v4();
 
   Future handleTakePhoto() async {
     XFile? file = await _picker.pickImage(
@@ -120,29 +126,121 @@ class _CameraPageSate extends State<CameraPage> {
     });
   }
 
+  handleSubmit() {
+    setState(() {
+      isUploading = true;
+    });
+  }
+
+  compressImage() async {
+    final tempDir = await getTemporaryDirectory();
+    final path = tempDir.path;
+
+    Im.Image? imageFile = Im.decodeImage(file1!.readAsBytesSync());
+
+    final compressedImageFile = File('$path/img_$postId');
+  }
+
   buildUploadForm() {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white70,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: clearImage,
+        appBar: AppBar(
+          backgroundColor: Colors.white70,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: clearImage,
+          ),
+          title: const Text(
+            "Caption Post",
+            style: TextStyle(color: Colors.black),
+          ),
+          actions: [
+            TextButton(
+                onPressed: () => isUploading ? null : () => handleSubmit(),
+                child: Text("Post",
+                    style: TextStyle(
+                        color: Colors.blueAccent,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0)))
+          ],
         ),
-        title: const Text(
-          "Caption Post",
-          style: TextStyle(color: Colors.black),
-        ),
-        actions: [
-          TextButton(
-              onPressed: () => print('pressed'),
-              child: Text("Post",
-                  style: TextStyle(
-                      color: Colors.blueAccent,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0)))
-        ],
-      ),
-    );
+        body: ListView(
+          children: <Widget>[
+            isUploading ? LinearProgressIndicator() : Text(""),
+            const Padding(
+              padding: EdgeInsets.only(top: 10.0),
+            ),
+            Container(
+              height: 220.0,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Center(
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.cover, image: FileImage(file1!)),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(top: 10.0),
+            ),
+            ListTile(
+              leading: CircleAvatar(
+                  //backgroundImage:
+                  //CachedNetworkImageProvider(widget.currentUser!.photoUrl),
+                  ),
+              title: Container(
+                width: 250.0,
+                child: TextField(
+                    decoration: InputDecoration(
+                  hintText: "Write a caption...",
+                  border: InputBorder.none,
+                )),
+              ),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(
+                Icons.pin_drop,
+                color: Colors.orange,
+                size: 35.0,
+              ),
+              title: Container(
+                width: 250.0,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: "Where was this photo taken?",
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+                width: 200.0,
+                height: 100.0,
+                alignment: Alignment.center,
+                child: ElevatedButton.icon(
+                    onPressed: () => print("get user location"),
+                    icon: Icon(
+                      Icons.my_location,
+                      color: Colors.white,
+                    ),
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.0),
+                            side: BorderSide(color: Colors.red)),
+                      ),
+                    ),
+                    label: Text(
+                      "Use Current Location",
+                      style: TextStyle(color: Colors.white),
+                    )))
+          ],
+        ));
   }
 
   @override
