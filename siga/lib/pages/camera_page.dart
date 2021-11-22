@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'dart:io';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,7 +17,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:geocoding/geocoding.dart';
 
+import 'package:geolocator/geolocator.dart';
 import 'login_page.dart';
 
 class CameraPage extends StatefulWidget {
@@ -280,7 +283,7 @@ class _CameraPageSate extends State<CameraPage> {
                 height: 100.0,
                 alignment: Alignment.center,
                 child: ElevatedButton.icon(
-                    onPressed: () => print("get user location"),
+                    onPressed: () => getUserLocation(),
                     icon: Icon(
                       Icons.my_location,
                       color: Colors.white,
@@ -298,6 +301,25 @@ class _CameraPageSate extends State<CameraPage> {
                     )))
           ],
         ));
+  }
+
+  getUserLocation() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+
+    Placemark placemark = placemarks[0];
+
+    String completeAddress =
+        '${placemark.subThoroughfare}${placemark.thoroughfare},${placemark.subLocality}${placemark.locality},${placemark.subAdministrativeArea}, ${placemark.administrativeArea},${placemark.postalCode},  ${placemark.country}';
+
+    print(completeAddress);
+
+    String formattedAddress =
+        "${placemark.subLocality}${placemark.locality},${placemark.country}";
+
+    locationController.text = formattedAddress;
   }
 
   @override
