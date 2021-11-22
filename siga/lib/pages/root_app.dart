@@ -9,6 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:siga/model/user.dart';
+import 'package:siga/pages/camera_page.dart';
+import 'package:siga/pages/login_page.dart';
 import 'package:siga/pages/map_page.dart';
 // import 'package:flutter_svg/svg.dart';
 
@@ -50,13 +52,7 @@ class _RootAppState extends State<RootApp> {
     List<Widget> pages = [
       HomePage(),
       SearchPage(),
-      Center(
-        child: Text(
-          "Camera Page",
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: black),
-        ),
-      ),
+      CameraPage(currentUser: currentUser),
       MapPage(),
       ProfilePage(),
       // Center(
@@ -115,13 +111,13 @@ class _RootAppState extends State<RootApp> {
               style: TextStyle(
                   fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else if (pageIndex == 2) {
-      return AppBar(
-          backgroundColor: appBarColor,
-          toolbarHeight: 70,
-          elevation: 0,
-          title: Text("Camera",
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: black)));
+      //return AppBar(
+      // backgroundColor: appBarColor,
+      // toolbarHeight: 70,
+      // elevation: 0,
+      // title: Text("Camera",
+      //     style: TextStyle(
+      //         fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else if (pageIndex == 3) {
       return AppBar(
           backgroundColor: appBarColor,
