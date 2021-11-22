@@ -149,7 +149,7 @@ class _HomeState extends State<Login_Page> {
 
   @override
   Widget build(BuildContext context) {
-    return isAuth ? buildAuthScreen() : buildUnAuthScreen();
-    //return buildAuthScreen();
+    //return isAuth ? buildAuthScreen() : buildUnAuthScreen();
+    return buildAuthScreen();
   }
 }
