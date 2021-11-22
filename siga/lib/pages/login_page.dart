@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:siga/model/user.dart';
 import 'package:siga/pages/root_app.dart';
 import 'package:siga/theme/colors.dart';
 import 'create_account_page.dart';
@@ -11,6 +12,7 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 final CollectionReference usersRef =
     FirebaseFirestore.instance.collection("users");
 final DateTime timestamp = DateTime.now();
+User? currentUser;
 
 class Login_Page extends StatefulWidget {
   //const Login_Page({Key? key}) : super(key: key);
@@ -45,7 +47,7 @@ class _HomeState extends State<Login_Page> {
   createUserInFirestore() async {
     //check if user exists
     final GoogleSignInAccount? user = googleSignIn.currentUser;
-    final DocumentSnapshot doc = await usersRef.doc(user!.id).get();
+    DocumentSnapshot doc = await usersRef.doc(user!.id).get();
 
     if (!doc.exists) {
       final username = await Navigator.push(
@@ -55,12 +57,14 @@ class _HomeState extends State<Login_Page> {
         "id": user.id,
         "username": username,
         "photoUrl": user.photoUrl,
-        "email": user.id,
+        "email": user.email,
         "displayName": user.displayName,
         "bio": "",
         "timestamp": timestamp,
       });
+      doc = await usersRef.doc(user.id).get();
     }
+    currentUser = User.fromDocument(doc);
   }
 
   login() {
@@ -85,7 +89,7 @@ class _HomeState extends State<Login_Page> {
   }
 
   Widget buildAuthScreen() {
-    return MaterialApp(home: RootApp());
+    return MaterialApp(home: RootApp(currentUser: currentUser));
     // return TextButton(
     //   child: Text("Logout"),
     //   onPressed: () => logout(),

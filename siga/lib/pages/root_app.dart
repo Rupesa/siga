@@ -3,7 +3,12 @@
 // multiple times in their lifetime. This simply means the state of an app
 // can change multiple times with different sets of variables, inputs, data.
 
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:siga/model/user.dart';
 import 'package:siga/pages/map_page.dart';
 // import 'package:flutter_svg/svg.dart';
 
@@ -16,7 +21,14 @@ import 'search_page.dart';
 import 'messages_page.dart';
 import 'map_page.dart';
 
+// FirebaseStorage storage = FirebaseStorage.instance;
+// Reference ref = storage.ref();
+
 class RootApp extends StatefulWidget {
+  User? currentUser;
+
+  RootApp({this.currentUser});
+
   @override
   _RootAppState createState() => _RootAppState();
 }

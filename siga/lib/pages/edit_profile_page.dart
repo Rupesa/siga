@@ -31,14 +31,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
           physics: BouncingScrollPhysics(),
           children: [
             ProfileWidget(
-              imagePath: user.imagePath,
+              imagePath: user.photoUrl,
               isEdit: true,
               onClicked: () async {},
             ),
             const SizedBox(height: 24),
             TextFieldWidget(
               label: 'Full Name',
-              text: user.name,
+              text: user.displayName,
               onChanged: (name) {},
             ),
             const SizedBox(height: 24),
@@ -50,7 +50,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             const SizedBox(height: 24),
             TextFieldWidget(
               label: 'About',
-              text: user.about,
+              text: user.bio,
               maxLines: 5,
               onChanged: (about) {},
             ),

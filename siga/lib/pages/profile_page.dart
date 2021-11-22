@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         const SizedBox(height: 24),
         ProfileWidget(
-          imagePath: user.imagePath,
+          imagePath: user.photoUrl,
           onClicked: () {
             print(context == null);
             Navigator.of(context).push(
@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget buildName(User user) => Column(
         children: [
           Text(
-            user.name,
+            user.displayName,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
           ),
           const SizedBox(height: 4),
@@ -74,7 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             const SizedBox(height: 16),
             Text(
-              user.about,
+              user.bio,
               style: TextStyle(fontSize: 16, height: 1.4),
             ),
           ],

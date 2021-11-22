@@ -1,7 +1,10 @@
 // import 'dart:html';
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:siga/src/widgets.dart';
+import 'package:siga/widgets/header.dart';
 
 class CreateAccount extends StatefulWidget {
   @override
@@ -9,18 +12,27 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
   late String username;
 
   submit() {
-    _formKey.currentState!.save();
-    Navigator.pop(context, username);
+    final form = _formKey.currentState;
+    if (form!.validate()) {
+      form.save();
+      SnackBar snackBar = SnackBar(content: Text("Welcome $username!"));
+      // ignore: deprecated_member_use
+      _scaffoldKey.currentState?.showSnackBar(snackBar);
+      Timer(const Duration(seconds: 2), () {
+        Navigator.pop(context, username);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        //appBar: header("Set up your profile"),
+        //appBar: header(context, titleText: "Set up your profile", removeBackButton: true),
         body: ListView(
       children: [
         Container(
@@ -39,8 +51,18 @@ class _CreateAccountState extends State<CreateAccount> {
               padding: EdgeInsets.all(16.0),
               child: Container(
                 child: Form(
+                  autovalidateMode: AutovalidateMode.always,
                   key: _formKey,
                   child: TextFormField(
+                    validator: (val) {
+                      if (val!.trim().length < 3 || val.isEmpty) {
+                        return "Username too short";
+                      } else if (val.trim().length > 12) {
+                        return "Username too long";
+                      } else {
+                        return null;
+                      }
+                    },
                     onSaved: (val) => username = val!,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(),
