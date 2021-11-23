@@ -13,6 +13,7 @@ import '../constant/story_json.dart';
 import '../constant/home_card_json.dart';
 
 CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
+CollectionReference postsRef = FirebaseFirestore.instance.collection("posts");
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,26 +22,42 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<dynamic> users = [];
+  //final String currentUserId = currentUser?.id;
+  bool isLoading = false;
+  List<PostItem> posts = [];
 
   void initState() {
     super.initState();
-    // getProfilePosts();
+    getProfilePosts();
     // createUser();
     // getUserByName("Fred");
     // getUsers();
     // getUserByID("U8Ttlz8Idf6uwR6Db43b");
   }
 
-  // getProfilePosts() async {
-  //   setState(() {
-  //     isLoading = true;
-  //   });
-  //   QuerySnapshot snapshot = await postsRef
-  //       .doc(widget.profileId)
-  //       .collection("userPosts")
-  //       .orderBy('timestamp', descending: true)
-  //       .get();
-  // }
+  getProfilePosts() async {
+    setState(() {
+      isLoading = true;
+    });
+    QuerySnapshot snapshot = await postsRef
+        .doc("111312808224151821684")
+        .collection("userPosts")
+        .orderBy('timestamp', descending: true)
+        .get();
+
+    print("Heyyy");
+    print("Heyy");
+    print("Hey");
+    print(snapshot);
+    setState(() {
+      isLoading = false;
+      print("Heyyy3");
+      print("Heyy");
+      print("Hey");
+      posts = snapshot.docs.map((doc) => PostItem.fromDocument(doc)).toList();
+      print(snapshot.docs);
+    });
+  }
 
   createUser() {
     usersRef
@@ -61,6 +78,18 @@ class _HomePageState extends State<HomePage> {
       doc.reference
           .update({"username": "Robert", "isAdmin": false, "postsCount": 2});
     }
+  }
+
+  buildProfilePosts() {
+    if (isLoading) {
+      return CircularProgressIndicator();
+    }
+    print("Heyyy2");
+    print("Heyy");
+    print("Hey");
+    return Column(
+      children: posts,
+    );
   }
 
   Future<void> getUserByID(String userID) async {
@@ -112,22 +141,22 @@ class _HomePageState extends State<HomePage> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          StreamBuilder<QuerySnapshot>(
-            // always getting data
-            //FutureBuilder<QuerySnapshot>( // gets data once
-            // future: usersRef.get(),
-            stream: usersRef.snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return CircularProgressIndicator();
-              }
-              final List<Text> children = snapshot.data!.docs
-                  .map((document) => Text(document["username"]))
-                  .toList();
-              return Container(
-                  height: 200.0, child: ListView(children: children));
-            },
-          ),
+          // StreamBuilder<QuerySnapshot>(
+          //   // always getting data
+          //   //FutureBuilder<QuerySnapshot>( // gets data once
+          //   // future: usersRef.get(),
+          //   stream: usersRef.snapshots(),
+          //   builder: (context, snapshot) {
+          //     if (!snapshot.hasData) {
+          //       return CircularProgressIndicator();
+          //     }
+          //     final List<Text> children = snapshot.data!.docs
+          //         .map((document) => Text(document["username"]))
+          //         .toList();
+          //     return Container(
+          //         height: 200.0, child: ListView(children: children));
+          //   },
+          // ),
 
           // Container(
           //   height: 200.0,
@@ -162,23 +191,24 @@ class _HomePageState extends State<HomePage> {
           Divider(
             color: black.withOpacity(0.3),
           ),
-          Column(
-            children: List.generate(posts.length, (index) {
-              return PostItem(
-                postImg: posts[index]['postImg'],
-                profileImg: posts[index]['profileImg'],
-                name: posts[index]['name'],
-                caption: posts[index]['caption'],
-                isLoved: posts[index]['isLoved'],
-                // viewCount: posts[index]['commentCount'],
-                // likedBy: posts[index]['likedBy'],
-                dayAgo: posts[index]['timeAgo'],
-                likeNumber: 0,
-                ownerId: '',
-                postId: '',
-              );
-            }),
-          )
+          buildProfilePosts(),
+          // Column(
+          //   children: List.generate(posts.length, (index) {
+          //     return PostItem(
+          //       postImg: posts[index]['postImg'],
+          //       profileImg: posts[index]['profileImg'],
+          //       name: posts[index]['name'],
+          //       caption: posts[index]['caption'],
+          //       isLoved: posts[index]['isLoved'],
+          //       // viewCount: posts[index]['commentCount'],
+          //       // likedBy: posts[index]['likedBy'],
+          //       dayAgo: posts[index]['timeAgo'],
+          //       likeNumber: 0,
+          //       ownerId: '',
+          //       postId: '',
+          //     );
+          //   }),
+          // )
         ],
       ),
     );

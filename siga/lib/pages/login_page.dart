@@ -65,9 +65,6 @@ class _HomeState extends State<Login_Page> {
       doc = await usersRef.doc(user.id).get();
     }
     currentUser = User.fromDocument(doc);
-    print("Heyyy");
-    print("Heyy");
-    print("Hey");
     print(currentUser);
   }
 

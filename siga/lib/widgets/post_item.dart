@@ -31,15 +31,15 @@ class PostItem extends StatelessWidget {
 
   factory PostItem.fromDocument(DocumentSnapshot doc) {
     return PostItem(
-      profileImg: doc["profileImg"],
-      name: doc["name"],
+      profileImg: doc["mediaUrl"],
+      name: doc["username"],
       ownerId: doc["ownerId"],
-      postImg: doc["postImg"],
-      caption: doc["caption"],
-      isLoved: doc["isLoved"],
-      likeNumber: doc["likeNumber"],
-      dayAgo: doc["dayAgo"],
-      postId: doc["id"],
+      postImg: doc["mediaUrl"],
+      caption: doc["description"],
+      isLoved: false,
+      likeNumber: 1,
+      dayAgo: "1",
+      postId: doc["postId"],
     );
   }
 
