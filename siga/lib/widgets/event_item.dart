@@ -93,7 +93,7 @@ class EventItem extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
-                      width: 220,
+                      width: 205,
                     ),
                     IconButton(
                       onPressed: () => vou(),

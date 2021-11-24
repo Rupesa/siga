@@ -14,6 +14,7 @@ import '../constant/home_card_json.dart';
 
 CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
 CollectionReference postsRef = FirebaseFirestore.instance.collection("posts");
+CollectionReference cardsRef = FirebaseFirestore.instance.collection("cards");
 
 class HomePage extends StatefulWidget {
   @override
@@ -25,11 +26,12 @@ class _HomePageState extends State<HomePage> {
   //final String currentUserId = currentUser?.id;
   bool isLoading = false;
   List<PostItem> posts = [];
-  List<dynamic> cards = [];
+  List<Home_card> cards = [];
 
   void initState() {
     super.initState();
     getProfilePosts();
+    // getCards();
     // createUser();
     // getUserByName("Fred");
     // getUsers();
@@ -37,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getProfilePosts() async {
+    getCards();
     setState(() {
       isLoading = true;
     });
@@ -46,10 +49,20 @@ class _HomePageState extends State<HomePage> {
         .orderBy('timestamp', descending: true)
         .get();
 
-    QuerySnapshot snapshot2 = await cardsRef.get();
     setState(() {
       isLoading = false;
       posts = snapshot.docs.map((doc) => PostItem.fromDocument(doc)).toList();
+    });
+  }
+
+  getCards() async {
+    setState(() {
+      isLoading = true;
+    });
+    QuerySnapshot snapshot2 = await cardsRef.get();
+    setState(() {
+      isLoading = false;
+      cards = snapshot2.docs.map((doc) => Home_card.fromDocument(doc)).toList();
     });
   }
 
@@ -78,11 +91,26 @@ class _HomePageState extends State<HomePage> {
     if (isLoading) {
       return CircularProgressIndicator();
     }
-    print("Heyyy2");
-    print("Heyy");
-    print("Hey");
     return Column(
       children: posts,
+    );
+  }
+
+  buildCards() {
+    if (isLoading) {
+      return CircularProgressIndicator();
+    }
+    return Container(
+      height: 200.0,
+      color: Colors.white,
+      child: ListView(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 8.0,
+        ),
+        scrollDirection: Axis.horizontal,
+        children: cards,
+      ),
     );
   }
 
@@ -160,30 +188,7 @@ class _HomePageState extends State<HomePage> {
               //     children: users.map((user) => Text(user["username"])).toList(),
               //   ),
               // ),
-              Container(
-                height: 200.0,
-                color: Colors.white,
-                child: ListView.builder(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 10.0,
-                    horizontal: 8.0,
-                  ),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: home_cards.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    // final Home_card story = home_cards[index - 1];
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                      child: Home_card(
-                        profile_img: home_cards[index]['profile_img'],
-                        profile_name: home_cards[index]['profile_name'],
-                        event_img: home_cards[index]['event_img'],
-                        event_name: home_cards[index]['event_name'],
-                      ),
-                    );
-                  },
-                ),
-              ),
+              buildCards(),
               Divider(
                 color: black.withOpacity(0.3),
               ),

@@ -147,11 +147,7 @@ class _CameraPageSate extends State<CameraPage> {
   createPostInFirebase(
       {String? mediaUrl, String? location, String? description}) {
     String postId = Uuid().v4();
-    postsRef
-        .doc(widget.currentUser!.id)
-        .collection("userPosts")
-        .doc(postId)
-        .set({
+    postsRef.doc("asrgw234fsdvwerb4").collection("userPosts").doc(postId).set({
       "postId": postId,
       "ownerId": widget.currentUser!.id,
       "username": widget.currentUser!.username,
