@@ -15,6 +15,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image/image.dart' as Im;
 import 'package:siga/utils/user_preferences.dart';
+import 'package:siga/widgets/event_item.dart';
 import 'package:uuid/uuid.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:geocoding/geocoding.dart';
@@ -53,9 +54,15 @@ class _SearchPageState extends State<SearchPage> {
   TextEditingController captionController = TextEditingController();
   List<dynamic> _placeList = [];
 
+  List<dynamic> users = [];
+  //final String currentUserId = currentUser?.id;
+  bool isLoading = false;
+  List<EventItem> events = [];
+
   @override
   void initState() {
     super.initState();
+    getProfilePosts();
     _controller.addListener(() {
       _onChanged();
     });
@@ -124,6 +131,7 @@ class _SearchPageState extends State<SearchPage> {
       "lat": lat,
       "lng": lng,
       "timestamp": timestamp,
+      "userUrl": widget.currentUser!.photoUrl,
     });
   }
 
@@ -409,118 +417,70 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
+  getProfilePosts() async {
+    setState(() {
+      isLoading = true;
+    });
+    QuerySnapshot snapshot =
+        await eventsRef.orderBy('timestamp', descending: true).get();
+
+    print(snapshot);
+    setState(() {
+      isLoading = false;
+      events = snapshot.docs.map((doc) => EventItem.fromDocument(doc)).toList();
+      print(snapshot.docs);
+    });
+  }
+
+  buildProfilePosts() {
+    if (isLoading) {
+      return CircularProgressIndicator();
+    }
+    return Column(
+      children: events,
+    );
+  }
+
+  Future<void> getUsers() async {
+    // print("Teste 2\n2\n2\n2\n2");
+    QuerySnapshot querySnapshot =
+        await eventsRef.orderBy("postsCount", descending: true).limit(99).get();
+
+    setState(() {
+      users = querySnapshot.docs;
+    });
+  }
+
   Widget getPage() {
     var size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-          backgroundColor: appBarColor,
-          toolbarHeight: 70,
-          elevation: 0,
-          title: Text(
-            "Events",
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.bold, color: black),
-          ),
-          actions: [
-            IconButton(
-              onPressed: () => addEvents(),
-              icon: SizedBox.fromSize(
-                size: Size.fromRadius(200),
-                child: FittedBox(
-                  child: Icon(
-                    Icons.add,
-                    color: black,
-                  ),
-                ),
-              ),
-            )
-          ]),
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SafeArea(
-              child: Row(
-                children: <Widget>[
-                  SizedBox(
-                    width: 15,
-                  ),
-                  Container(
-                    width: size.width - 30,
-                    height: 45,
-                    // child: TextField(
-                    //   decoration: InputDecoration(
-                    //     hintText: "Search...",
-                    //     hintStyle: TextStyle(color: Colors.grey.shade600),
-                    //     prefixIcon: Icon(
-                    //       Icons.search,
-                    //       color: Colors.grey.shade600,
-                    //       size: 20,
-                    //     ),
-                    //     filled: true,
-                    //     fillColor: Colors.grey.shade100,
-                    //     contentPadding: EdgeInsets.all(8),
-                    //     enabledBorder: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(20),
-                    //         borderSide: BorderSide(color: Colors.grey.shade100)),
-                    //   ),
-                    // ),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.shade200),
-                    child: TextField(
-                      decoration: InputDecoration(
-                          hintText: "Search...",
-                          hintStyle: TextStyle(color: Colors.grey.shade600),
-                          border: InputBorder.none,
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Colors.grey.shade600,
-                          )),
-                      style: TextStyle(color: white.withOpacity(0.3)),
-                      cursorColor: white.withOpacity(0.3),
+        appBar: AppBar(
+            backgroundColor: appBarColor,
+            toolbarHeight: 70,
+            elevation: 0,
+            title: Text(
+              "Events",
+              style: TextStyle(
+                  fontSize: 20, fontWeight: FontWeight.bold, color: black),
+            ),
+            actions: [
+              IconButton(
+                onPressed: () => addEvents(),
+                icon: SizedBox.fromSize(
+                  size: Size.fromRadius(200),
+                  child: FittedBox(
+                    child: Icon(
+                      Icons.add,
+                      color: black,
                     ),
                   ),
-                  SizedBox(
-                    width: 15,
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15),
-                child: Row(
-                    children: List.generate(searchCategories.length, (index) {
-                  return CategoryStoryItem(
-                    name: searchCategories[index],
-                  );
-                })),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Wrap(
-              spacing: 1,
-              runSpacing: 1,
-              children: List.generate(searchImages.length, (index) {
-                return Container(
-                  width: (size.width - 3) / 3,
-                  height: (size.width - 3) / 3,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: NetworkImage(searchImages[index]),
-                          fit: BoxFit.cover)),
-                );
-              }),
-            )
-          ],
-        ),
-      ),
-    );
+                ),
+              )
+            ]),
+        body: RefreshIndicator(
+            onRefresh: () => getProfilePosts(),
+            child: SingleChildScrollView(
+              child: buildProfilePosts(),
+            )));
   }
 }
