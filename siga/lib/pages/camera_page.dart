@@ -67,7 +67,7 @@ class _CameraPageSate extends State<CameraPage> {
     });
   }
 
-  selectImage(parentContect) {
+  selectImage(parentContext) {
     return showDialog(
         context: context,
         builder: (context) {
