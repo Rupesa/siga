@@ -33,6 +33,7 @@ firebase_storage.Reference ref =
     firebase_storage.FirebaseStorage.instance.ref();
 CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
 CollectionReference postsRef = FirebaseFirestore.instance.collection("posts");
+CollectionReference eventsRef = FirebaseFirestore.instance.collection("events");
 
 class RootApp extends StatefulWidget {
   User? currentUser;
@@ -59,8 +60,8 @@ class _RootAppState extends State<RootApp> {
   Widget getBody() {
     List<Widget> pages = [
       HomePage(),
-      // SearchPage(),
-      EventsPage(),
+      SearchPage(currentUser: currentUser),
+      //EventsPage(),
       CameraPage(currentUser: currentUser),
       MapPage(),
       ProfilePage(currentUser!),
@@ -112,13 +113,6 @@ class _RootAppState extends State<RootApp> {
         ),
       );
     } else if (pageIndex == 1) {
-      return AppBar(
-          backgroundColor: appBarColor,
-          toolbarHeight: 70,
-          elevation: 0,
-          title: Text("Events",
-              style: TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold, color: black)));
     } else if (pageIndex == 2) {
       //return AppBar(
       // backgroundColor: appBarColor,
