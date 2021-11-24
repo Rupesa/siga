@@ -36,6 +36,7 @@ firebase_storage.Reference ref =
 CollectionReference usersRef = FirebaseFirestore.instance.collection("users");
 CollectionReference postsRef = FirebaseFirestore.instance.collection("posts");
 CollectionReference eventsRef = FirebaseFirestore.instance.collection("events");
+CollectionReference cardsRef = FirebaseFirestore.instance.collection("cards");
 
 class RootApp extends StatefulWidget {
   User? currentUser;

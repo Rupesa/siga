@@ -55,27 +55,6 @@ class _EventsPageState extends State<EventsPage> {
     });
   }
 
-  createUser() {
-    usersRef
-        .doc("randomID")
-        .set({"username": "Robert", "isAdmin": false, "postsCount": 1});
-  }
-
-  deleteUser() async {
-    final doc = await usersRef.doc("randomID").get();
-    if (doc.exists) {
-      doc.reference.delete();
-    }
-  }
-
-  updateUser() async {
-    final doc = await usersRef.doc("randomID").get();
-    if (doc.exists) {
-      doc.reference
-          .update({"username": "Robert", "isAdmin": false, "postsCount": 2});
-    }
-  }
-
   buildProfilePosts() {
     if (isLoading) {
       return CircularProgressIndicator();
@@ -86,25 +65,6 @@ class _EventsPageState extends State<EventsPage> {
     return Column(
       children: posts,
     );
-  }
-
-  Future<void> getUserByID(String userID) async {
-    // print("Teste 2\n2\n2\n2\n2");
-    DocumentSnapshot<Object?> user_doc = await usersRef.doc(userID).get();
-    print(user_doc.data());
-    print(user_doc.id);
-    print(user_doc.exists);
-  }
-
-  Future<void> getUserByName(String userName) async {
-    print("Teste 2\n2\n2\n2\n2");
-    QuerySnapshot querySnapshot =
-        await usersRef.where("username", isEqualTo: userName).get();
-    querySnapshot.docs.forEach((DocumentSnapshot element) {
-      print(element.data());
-      print(element.id);
-      print(element.exists);
-    });
   }
 
   Future<void> getUsers() async {

@@ -54,7 +54,8 @@ dependencies:
   geolocator: ^7.7.1
   geocoding: ^2.0.1
   flutter_google_places: ^0.3.0
-  #clippy_flutter: ^1.1.1
+  hive: ^2.0.4
+  hive_flutter: ^1.1.0
   
   # cached_network_image: ^3.1.0
 
@@ -68,6 +69,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  hive_generator: ^1.1.1
+  build_runner: ^2.1.5
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

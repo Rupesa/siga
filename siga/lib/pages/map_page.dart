@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:animated_theme_switcher/animated_theme_switcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:siga/pages/root_app.dart';
 import 'package:siga/widgets/event_item.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -20,6 +23,7 @@ class _MapPageSate extends State<MapPage> {
   late LocationData _currentPosition;
   late String _address;
   late Marker marker;
+  late Box box;
   LatLng _initialPosition = LatLng(40.6412, -8.65362);
   Set<Marker> markers = {};
   List<EventItem> events = [];
@@ -68,6 +72,7 @@ class _MapPageSate extends State<MapPage> {
     setState(() {
       getEvents();
     });
+    initBox();
     getLoc();
   }
 
@@ -104,6 +109,12 @@ class _MapPageSate extends State<MapPage> {
     );
   }
 
+  void initBox() async {
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    box = await Hive.openBox("locations");
+  }
+
   getLoc() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -130,6 +141,12 @@ class _MapPageSate extends State<MapPage> {
     location.onLocationChanged.listen((LocationData currentLocation) {
       print("Current location \n");
       print("${currentLocation.longitude} : ${currentLocation.longitude}");
+      //await Hive.box('peopleBox');
+      box.put('location: ',
+          "${currentLocation.longitude} : ${currentLocation.longitude}");
+      var name = box.get('name');
+      print('Location: $name');
+
       setState(() {
         _currentPosition = currentLocation;
         _initialPosition =

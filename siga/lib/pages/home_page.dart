@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   //final String currentUserId = currentUser?.id;
   bool isLoading = false;
   List<PostItem> posts = [];
+  List<dynamic> cards = [];
 
   void initState() {
     super.initState();
@@ -45,17 +46,10 @@ class _HomePageState extends State<HomePage> {
         .orderBy('timestamp', descending: true)
         .get();
 
-    print("Heyyy");
-    print("Heyy");
-    print("Hey");
-    print(snapshot);
+    QuerySnapshot snapshot2 = await cardsRef.get();
     setState(() {
       isLoading = false;
-      print("Heyyy3");
-      print("Heyy");
-      print("Hey");
       posts = snapshot.docs.map((doc) => PostItem.fromDocument(doc)).toList();
-      print(snapshot.docs);
     });
   }
 

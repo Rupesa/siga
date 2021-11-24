@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:siga/pages/root_app.dart';
 
 import '../theme/colors.dart';
 
@@ -47,6 +48,17 @@ class EventItem extends StatelessWidget {
     );
   }
 
+  vou() {
+    cardsRef.doc(eventId).set({
+      "eventId": eventId,
+      "ownerId": ownerId,
+      "username": name,
+      "eventname": caption,
+      "mediaUrl": postImg,
+      "userUrl": profileImg,
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -79,6 +91,21 @@ class EventItem extends StatelessWidget {
                           color: black,
                           fontSize: 15,
                           fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      width: 220,
+                    ),
+                    IconButton(
+                      onPressed: () => vou(),
+                      icon: SizedBox.fromSize(
+                        size: Size.fromRadius(200),
+                        child: FittedBox(
+                          child: Icon(
+                            Icons.check_circle_outline,
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ),
                     )
                   ],
                 ),

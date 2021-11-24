@@ -159,7 +159,7 @@ class _CameraPageSate extends State<CameraPage> {
       "description": description,
       "location": location,
       "timestamp": timestamp,
-      "likes": {},
+      "userUrl": widget.currentUser!.photoUrl,
     });
   }
 
