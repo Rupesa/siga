@@ -128,6 +128,7 @@ class _SearchPageState extends State<SearchPage> {
       "username": widget.currentUser!.username,
       "mediaUrl": mediaUrl,
       "description": description,
+      "location": _controller.text,
       "lat": lat,
       "lng": lng,
       "timestamp": timestamp,

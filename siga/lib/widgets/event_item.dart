@@ -41,7 +41,7 @@ class EventItem extends StatelessWidget {
       lng: doc["lng"],
       caption: doc["description"],
       // location: doc["location"],
-      location: "Hey",
+      location: doc["location"],
       dayAgo: doc["timestamp"].toDate().toString().substring(0, 10),
       eventId: doc["eventId"],
       profileImg: doc["userUrl"],
