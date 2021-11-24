@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       isLoading = true;
     });
     QuerySnapshot snapshot = await postsRef
-        .doc("111312808224151821684")
+        .doc("asrgw234fsdvwerb4")
         .collection("userPosts")
         .orderBy('timestamp', descending: true)
         .get();
@@ -138,79 +138,79 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget getBody() {
-    return SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          // StreamBuilder<QuerySnapshot>(
-          //   // always getting data
-          //   //FutureBuilder<QuerySnapshot>( // gets data once
-          //   // future: usersRef.get(),
-          //   stream: usersRef.snapshots(),
-          //   builder: (context, snapshot) {
-          //     if (!snapshot.hasData) {
-          //       return CircularProgressIndicator();
-          //     }
-          //     final List<Text> children = snapshot.data!.docs
-          //         .map((document) => Text(document["username"]))
-          //         .toList();
-          //     return Container(
-          //         height: 200.0, child: ListView(children: children));
-          //   },
-          // ),
+    return RefreshIndicator(
+        onRefresh: () => getProfilePosts(),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              // StreamBuilder<QuerySnapshot>(
+              //   // always getting data
+              //   //FutureBuilder<QuerySnapshot>( // gets data once
+              //   // future: usersRef.get(),
+              //   stream: usersRef.snapshots(),
+              //   builder: (context, snapshot) {
+              //     if (!snapshot.hasData) {
+              //       return CircularProgressIndicator();
+              //     }
+              //     final List<Text> children = snapshot.data!.docs
+              //         .map((document) => Text(document["username"]))
+              //         .toList();
+              //     return Container(
+              //         height: 200.0, child: ListView(children: children));
+              //   },
+              // ),
 
-          // Container(
-          //   height: 200.0,
-          //   child: ListView(
-          //     children: users.map((user) => Text(user["username"])).toList(),
-          //   ),
-          // ),
-          Container(
-            height: 200.0,
-            color: Colors.white,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 8.0,
-              ),
-              scrollDirection: Axis.horizontal,
-              itemCount: home_cards.length,
-              itemBuilder: (BuildContext context, int index) {
-                // final Home_card story = home_cards[index - 1];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                  child: Home_card(
-                    profile_img: home_cards[index]['profile_img'],
-                    profile_name: home_cards[index]['profile_name'],
-                    event_img: home_cards[index]['event_img'],
-                    event_name: home_cards[index]['event_name'],
+              // Container(
+              //   height: 200.0,
+              //   child: ListView(
+              //     children: users.map((user) => Text(user["username"])).toList(),
+              //   ),
+              // ),
+              Container(
+                height: 200.0,
+                color: Colors.white,
+                child: ListView.builder(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 10.0,
+                    horizontal: 8.0,
                   ),
-                );
-              },
-            ),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: home_cards.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    // final Home_card story = home_cards[index - 1];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Home_card(
+                        profile_img: home_cards[index]['profile_img'],
+                        profile_name: home_cards[index]['profile_name'],
+                        event_img: home_cards[index]['event_img'],
+                        event_name: home_cards[index]['event_name'],
+                      ),
+                    );
+                  },
+                ),
+              ),
+              Divider(
+                color: black.withOpacity(0.3),
+              ),
+              buildProfilePosts(),
+              // Column(
+              //   children: List.generate(posts.length, (index) {
+              //     return PostItem(
+              //       postImg: posts[index]['postImg'],
+              //       profileImg: posts[index]['profileImg'],
+              //       name: posts[index]['name'],
+              //       caption: posts[index]['caption'],
+              //       isLoved: posts[index]['isLoved'],
+              //       dayAgo: posts[index]['timeAgo'],
+              //       likeNumber: 0,
+              //       ownerId: '',
+              //       postId: '',
+              //     );
+              //   }),
+              // )
+            ],
           ),
-          Divider(
-            color: black.withOpacity(0.3),
-          ),
-          buildProfilePosts(),
-          // Column(
-          //   children: List.generate(posts.length, (index) {
-          //     return PostItem(
-          //       postImg: posts[index]['postImg'],
-          //       profileImg: posts[index]['profileImg'],
-          //       name: posts[index]['name'],
-          //       caption: posts[index]['caption'],
-          //       isLoved: posts[index]['isLoved'],
-          //       // viewCount: posts[index]['commentCount'],
-          //       // likedBy: posts[index]['likedBy'],
-          //       dayAgo: posts[index]['timeAgo'],
-          //       likeNumber: 0,
-          //       ownerId: '',
-          //       postId: '',
-          //     );
-          //   }),
-          // )
-        ],
-      ),
-    );
+        ));
   }
 }

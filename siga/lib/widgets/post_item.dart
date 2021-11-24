@@ -12,9 +12,8 @@ class PostItem extends StatelessWidget {
   final String postImg;
   final String ownerId;
   final String caption;
-  final bool isLoved;
-  final int likeNumber;
   final String dayAgo;
+  final String location;
 
   const PostItem({
     Key? key,
@@ -23,10 +22,9 @@ class PostItem extends StatelessWidget {
     required this.name,
     required this.postImg,
     required this.ownerId,
-    required this.isLoved,
-    required this.likeNumber,
     required this.dayAgo,
     required this.caption,
+    required this.location,
   }) : super(key: key);
 
   factory PostItem.fromDocument(DocumentSnapshot doc) {
@@ -36,9 +34,8 @@ class PostItem extends StatelessWidget {
       ownerId: doc["ownerId"],
       postImg: doc["mediaUrl"],
       caption: doc["description"],
-      isLoved: false,
-      likeNumber: 1,
-      dayAgo: "1",
+      location: doc["location"],
+      dayAgo: doc["timestamp"].toDate().toString().substring(0, 10),
       postId: doc["postId"],
     );
   }
@@ -94,71 +91,71 @@ class PostItem extends StatelessWidget {
                 image: DecorationImage(
                     image: NetworkImage(postImg), fit: BoxFit.cover)),
           ),
-          SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15, top: 3),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    isLoved
-                        ? Image(
-                            image:
-                                AssetImage("assets/images/heart_selected.png"),
-                            width: 30)
-                        : Image(
-                            image: AssetImage("assets/images/heart.png"),
-                            width: 30),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Image(
-                        image: AssetImage("assets/images/comment.png"),
-                        width: 30),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    SvgPicture.asset(
-                      "assets/images/message_icon.svg",
-                      width: 27,
-                    ),
-                  ],
-                ),
-                SvgPicture.asset(
-                  "assets/images/save_icon.svg",
-                  width: 27,
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: RichText(
-                text: TextSpan(children: [
-              // TextSpan(
-              //     text: "Liked by ",
-              //     style: TextStyle(
-              //         fontSize: 15, fontWeight: FontWeight.w500, color: black)),
-              TextSpan(
-                  text: "$likeNumber",
-                  style: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w700, color: black)),
-              TextSpan(
-                  text: " Likes",
-                  style: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w500, color: black)),
-              // TextSpan(
-              //     text: "Other",
-              //     style: TextStyle(
-              //         fontSize: 15, fontWeight: FontWeight.w700, color: black)),
-            ])),
-          ),
+          // SizedBox(
+          //   height: 10,
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15, right: 15, top: 3),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: <Widget>[
+          //       Row(
+          //         children: <Widget>[
+          //           isLoved
+          //               ? Image(
+          //                   image:
+          //                       AssetImage("assets/images/heart_selected.png"),
+          //                   width: 30)
+          //               : Image(
+          //                   image: AssetImage("assets/images/heart.png"),
+          //                   width: 30),
+          //           SizedBox(
+          //             width: 20,
+          //           ),
+          //           Image(
+          //               image: AssetImage("assets/images/comment.png"),
+          //               width: 30),
+          //           SizedBox(
+          //             width: 20,
+          //           ),
+          //           SvgPicture.asset(
+          //             "assets/images/message_icon.svg",
+          //             width: 27,
+          //           ),
+          //         ],
+          //       ),
+          //       SvgPicture.asset(
+          //         "assets/images/save_icon.svg",
+          //         width: 27,
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(
+          //   height: 12,
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 15, right: 15),
+          //   child: RichText(
+          //       text: TextSpan(children: [
+          //     // TextSpan(
+          //     //     text: "Liked by ",
+          //     //     style: TextStyle(
+          //     //         fontSize: 15, fontWeight: FontWeight.w500, color: black)),
+          //     TextSpan(
+          //         text: "$likeNumber",
+          //         style: TextStyle(
+          //             fontSize: 15, fontWeight: FontWeight.w700, color: black)),
+          //     TextSpan(
+          //         text: " Likes",
+          //         style: TextStyle(
+          //             fontSize: 15, fontWeight: FontWeight.w500, color: black)),
+          //     // TextSpan(
+          //     //     text: "Other",
+          //     //     style: TextStyle(
+          //     //         fontSize: 15, fontWeight: FontWeight.w700, color: black)),
+          //   ])),
+          // ),
           SizedBox(
             height: 12,
           ),
@@ -179,9 +176,17 @@ class PostItem extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: black)),
               ]))),
-          SizedBox(
-            height: 12,
+          Padding(
+            padding: EdgeInsets.only(left: 15, right: 15, top: 5),
+            child: Text(
+              "$location",
+              style: TextStyle(
+                  color: black, fontSize: 15, fontWeight: FontWeight.w500),
+            ),
           ),
+          // SizedBox(
+          //   height: 12,
+          // ),
           // Padding(
           //   padding: EdgeInsets.only(left: 15, right: 15),
           //   child: Text(
@@ -229,7 +234,7 @@ class PostItem extends StatelessWidget {
           //   height: 12,
           // ),
           Padding(
-            padding: EdgeInsets.only(left: 15, right: 15),
+            padding: EdgeInsets.only(left: 15, right: 15, top: 5),
             child: Text(
               "$dayAgo",
               style: TextStyle(

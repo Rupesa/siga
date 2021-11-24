@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:siga/model/user.dart';
 import 'package:siga/pages/camera_page.dart';
+import 'package:siga/pages/events_page.dart';
 import 'package:siga/pages/login_page.dart';
 import 'package:siga/pages/map_page.dart';
 // import 'package:flutter_svg/svg.dart';
@@ -58,7 +59,8 @@ class _RootAppState extends State<RootApp> {
   Widget getBody() {
     List<Widget> pages = [
       HomePage(),
-      SearchPage(),
+      // SearchPage(),
+      EventsPage(),
       CameraPage(currentUser: currentUser),
       MapPage(),
       ProfilePage(currentUser!),
@@ -164,8 +166,8 @@ class _RootAppState extends State<RootApp> {
           ? "assets/images/camera_selected.png"
           : "assets/images/camera.png",
       pageIndex == 3
-          ? "assets/images/heart_selected.png"
-          : "assets/images/heart.png",
+          ? "assets/images/map_selected.png"
+          : "assets/images/map.png",
       pageIndex == 4
           ? "assets/images/profile_selected.png"
           : "assets/images/profile.png",
