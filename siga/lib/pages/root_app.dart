@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
 import 'package:siga/model/user.dart';
 import 'package:siga/pages/camera_page.dart';
 import 'package:siga/pages/events_page.dart';
@@ -24,6 +25,7 @@ import 'home_page.dart';
 import 'search_page.dart';
 import 'messages_page.dart';
 import 'map_page.dart';
+import 'testMap.dart';
 
 // FirebaseStorage storage = FirebaseStorage.instance;
 // Reference ref = storage.ref();
