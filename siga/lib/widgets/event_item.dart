@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:siga/pages/login_page.dart';
 import 'package:siga/pages/root_app.dart';
 
 import '../theme/colors.dart';
@@ -50,12 +51,12 @@ class EventItem extends StatelessWidget {
 
   vou() {
     cardsRef.doc(eventId).set({
-      "eventId": eventId,
-      "ownerId": ownerId,
-      "username": name,
+      "eventId": eventId + currentUser!.username,
+      "ownerId": currentUser!.id,
+      "username": currentUser!.username,
       "eventname": caption,
       "mediaUrl": postImg,
-      "userUrl": profileImg,
+      "userUrl": currentUser!.photoUrl,
     });
   }
 
@@ -93,7 +94,7 @@ class EventItem extends StatelessWidget {
                           fontWeight: FontWeight.w500),
                     ),
                     SizedBox(
-                      width: 205,
+                      width: 235,
                     ),
                     IconButton(
                       onPressed: () => vou(),
